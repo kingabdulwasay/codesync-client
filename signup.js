@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
             localStorage.setItem('workspace', JSON.stringify({username, workspaceName, host: true}))
-            window.location.replace('http://127.0.0.1:5500/client/index.html')
+            window.location.replace('index.html')
         
     })
         document.getElementById('join-btn').addEventListener('click', async() => {
@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const username = document.getElementById('user').value.trim()
 
             localStorage.setItem('workspace', JSON.stringify({username, workspaceName,host: false}))
-            window.location.replace('http://127.0.0.1:5500/client/index.html')
+            window.location.replace('index.html')
         
     })
 })
