@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - CodeSync</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            background: var(--vscode-bg, #1e1e1e);
+            color: var(--vscode-text, #d4d4d4);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .signup-container {
+            background: var(--vscode-sidebar-background, #252526);
+            border-radius: 14px;
+            box-shadow: 0 4px 32px 0 rgba(0,0,0,0.18);
+            padding: 40px 32px 32px 32px;
+            width: 40%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 1px solid var(--vscode-border, #404040);
+        }
+        .signup-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 18px;
+            color: var(--vscode-sideBarTitle-foreground, #cccccc);
+            letter-spacing: 1px;
+        }
+        .signup-form {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+        .signup-form input, .signup-form select, .signup-form textarea {
+            background: var(--vscode-input-background, #3c3c3c);
+            color: var(--vscode-input-foreground, #cccccc);
+            border: 1.5px solid var(--vscode-input-border, #3c3c3c);
+            border-radius: 6px;
+            padding: 12px 14px;
+            font-size: 15px;
+            outline: none;
+            transition: border 0.2s;
+        }
+        .signup-form input:focus, .signup-form select:focus, .signup-form textarea:focus {
+            border-color: var(--vscode-focusBorder, #007fd4);
+        }
+        .signup-btn {
+            background: #43e97b;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 12px 0;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: background 0.18s;
+        }
+        .signup-btn:hover {
+            background: #2ecc40;
+        }
+        .google-btn {
+            background: #0078d4;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .signup-footer {
+            margin-top: 18px;
+            font-size: 14px;
+            color: #888;
+        }
+        .signup-footer a {
+            color: #43e97b;
+            text-decoration: none;
+            margin-left: 4px;
+        }
+        .signup-footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="signup-container">
+        <div class="signup-title">Add or join workspace</div>
+        <div class="signup-form" autocomplete="off">
+            <input id="user" type="text" placeholder="Your Name" required>
+            <input id="work" type="text" placeholder="Workspace Name" required>
+            <!-- <select id="type" required style="background: var(--vscode-input-background, #3c3c3c); color: var(--vscode-input-foreground, #cccccc); border: 1.5px solid var(--vscode-input-border, #3c3c3c); border-radius: 6px; padding: 12px 14px; font-size: 15px;">
+                <option value="" disabled selected>Workspace Visibility</option>
+                <option value="public">Public</option>
+                <option value="private">Private</option>
+            </select> -->
+            <!-- <textarea id="members" placeholder="Add members (Optional)" rows="3" style="background: var(--vscode-input-background, #3c3c3c); color: var(--vscode-input-foreground, #cccccc); border: 1.5px solid var(--vscode-input-border, #3c3c3c); border-radius: 6px; padding: 12px 14px; font-size: 15px; resize: vertical;"></textarea> -->
+            <button id="create-btn" class="signup-btn google-btn" type="button" style="background: #0078d4; color: #fff; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                <i class="fab fa-google"></i> Create workspace
+            </button>
+              <button id="join-btn" class="signup-btn google-btn" type="button" style="border: 1px solid #0078d4; background-color: transparent; color: #0078d4; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                <i class="fab fa-google"></i> Join workspace
+            </button>
+        </div>
+      
+    </div>
+    <script src="signup.js"></script>
+</body>
+</html>

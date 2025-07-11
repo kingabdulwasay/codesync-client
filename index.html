@@ -1,0 +1,319 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeSync</title>
+    <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-auth-compat.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/peerjs@1.4.7/dist/peerjs.min.js"></script>
+    <script src="https://cdn.socket.io/4.8.1/socket.io.min.js" integrity="sha384-mkQ3/7FUtcGyoppY6bz/PORYoGqOl7/aSUMn2ymDOJcapfS6PHqxhRTMh1RR0Q6+" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/codemirror.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/codemirror.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- Language Mode: JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/mode/javascript/javascript.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.10/mode/markdown/markdown.min.js"></script>
+
+  <!-- CodeMirror Themes -->
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/theme/icecoder.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/theme/dracula.min.css">
+
+
+<!-- Required modes -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/mode/xml/xml.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/mode/css/css.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/mode/htmlmixed/htmlmixed.min.js"></script>
+
+
+
+
+
+
+<link rel="stylesheet" href="style.css">
+
+<style>
+/* Apply only when using icecoder theme */
+.cm-s-icecoder.CodeMirror {
+  font-family: 'Fira Code', monospace;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+ .cm-s-icecoder .cm-tag        { color: #ff7b72 !important}
+.cm-s-icecoder .cm-attribute  { color: #dcdcaa !important}
+.cm-s-icecoder .cm-string     { color: #ce9178 !important}
+.cm-s-icecoder .cm-meta       { color: #c586c0 !important}
+
+.cm-s-icecoder .cm-property   { color: #d7ba7d !important}       
+.cm-s-icecoder .cm-number     { color: #b5cea8 !important}       
+.cm-s-icecoder .cm-keyword    { color: #c586c0 !important}       
+.cm-s-icecoder .cm-variable   { color: #9cdcfe !important}       
+
+
+.cm-s-icecoder .cm-keyword    { color: #569cd6 !important}
+.cm-s-icecoder .cm-def        { color: #4ec9b0 !important}        
+.cm-s-icecoder .cm-variable   { color: #9cdcfe !important}
+.cm-s-icecoder .cm-property   { color: #dcdcaa !important}        
+.cm-s-icecoder .cm-string     { color: #ce9178 !important}
+.cm-s-icecoder .cm-number     { color: #b5cea8 !important}
+.cm-s-icecoder .cm-operator   { color: #d4d4d4 !important}
+
+.cm-s-icecoder .cm-comment    { color: #6a9955 !important; font-style: italic !important}
+.cm-s-icecoder .cm-error      { background: #00ff0d !important; color: white !important}
+.cm-s-icecoder .CodeMirror-cursor { border-left: 1px solid white !important}
+.cm-s-icecoder .CodeMirror-selected { background: rgba(255,255,255,0.1) !important}
+
+
+</style>
+
+
+</head>
+<body>
+    <div class="workspace">
+        <!-- Activity Bar (Left Sidebar) -->
+        <div class="sidebar">
+            <div class="sidebar-icon active" title="Explorer" id="explorer-icon">
+                <i class="fa-solid fa-folder"></i>
+            </div>
+            
+            <div class="sidebar-icon" title="Settings">
+                <i class="fa-solid fa-gear"></i>
+            </div>
+                        <div id="terminal-open-btn" class="sidebar-icon" title="Terminal" onclick="document.getElementById('terminal-panel').style.display='flex';">
+                <i class="fa-solid fa-terminal"></i>
+            </div>
+       
+            
+            <div id="share-toggle" class="sidebar-icon" title="Share">
+                <i class="fa-solid fa-share-nodes"></i>
+            </div>
+<div id="ai-sidebar" class="sidebar-icon" title="Open AI Sidebar">
+                        <i class="fa-solid fa-robot"></i>
+</div>
+                  <div id="get-id" class="sidebar-icon" title="Sync Id">
+            <i class="fa-solid fa-id-badge"></i>
+            </div>
+              <div id="get-id" class="sidebar-icon" title="Exit workspace" onclick="window.location.replace('signup.html')">
+                <i class="fa-solid fa-right-from-bracket"></i>
+            </div>
+            
+            <div class="sidebar-divider"></div>
+            <!-- AI Feature Icons -->
+                <div id="mic" class="sidebar-icon active" title="Mic">
+                <i class="fa-solid fa-microphone"></i>
+            </div>
+            
+            <div id="share-toggle" class="sidebar-icon" title="Video">
+                <i class="fa-solid fa-video"></i>
+            </div>
+
+                  <div id="get-id" class="sidebar-icon" title="Sync Id">
+            <i class="fa-solid fa-comment"></i>
+            </div>
+            
+        </div>
+
+        <!-- File Explorer Panel -->
+        <div class="explorer-panel" id="explorer-panel">
+            <div class="explorer-title-row">
+                <span class="explorer-title">EXPLORER</span>
+            </div>
+            <button id="create-file">
+                Create new file
+            </button>
+         
+            <ul id="file-tree" class="file-tree">
+               
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Top Bar -->
+            <div class="top-bar">
+                <div class="logo">
+                    <i class="fa-solid fa-code"></i>
+                    <span>CodeSync</span>
+                </div>
+                <div class="top-actions">
+                    <button id="run-code" class="vscode-topbar-btn run-btn" title="Run Code">
+                        <i class="fa-solid fa-play"></i>
+                    </button>
+                    
+                </div>
+                <div class="top-status">
+                    <span id="connection-status">  <i id="connection-signal" class="fa-solid fa-circle"></i>Disconnected</span>
+                </div>
+            </div>
+
+            <!-- Editor Area -->
+            <div class="editor-tabs">
+                <div class="tab active">
+                    <!-- <i class="fa-solid fa-code"></i> -->
+                    <span id="current-code-context">No file selected</span>
+                </div>
+                <div class="tab-tools">
+                    <div id="copy-code" class="tab-tool-icon" title="Copy Code">
+                        <i class="fa-solid fa-copy"></i>
+                    </div>
+                    <div id="logic" class="tab-tool-icon" title="Logic to Code">
+                        <i class="fa-solid fa-brain"></i>
+                    </div>
+                    <div class="tab-tool-icon" title="Bug Fix">
+                        <i class="fa-solid fa-bug"></i>
+                    </div>
+                    <div class="tab-tool-icon" title="Optimize">
+                        <i class="fa-solid fa-gauge-high"></i>
+                    </div>
+                    <div class="tab-tool-icon" title="Translate">
+                        <i class="fa-solid fa-language"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="editor-container" id="editor-container">
+                <textarea id="editor">// Wait for a few seconds, your sync ID will appear here...</textarea>
+            </div>
+            <!-- VS Code-like Terminal Panel -->
+            <div class="terminal-panel" id="terminal-panel">
+                <div class="terminal-header">
+                    <span><i class="fa-solid fa-terminal"></i> Terminal</span>
+                    <button class="terminal-close-btn" title="Close Terminal" onclick="document.getElementById('terminal-panel').style.display='none';"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+                <div class="terminal-body" id="terminal-body">
+                    <div class="terminal-line"><span class="terminal-prompt">PS CodeSync :: source.cpp >>></span> <input class="terminal-input" type="text" placeholder="AI predicted output of this file shows here" onkeydown="if(event.key==='Enter'){addTerminalLine(this.value);this.value='';}"></div>
+                </div>
+            </div>
+            <script>
+                
+            function addTerminalLine(cmd) {
+                const terminalBody = document.getElementById('terminal-body');
+                const line = document.createElement('div');
+                line.className = 'terminal-line';
+                line.innerHTML = `<span class='terminal-prompt'>PS Cod:\\Users\\User&gt;</span> ${cmd}`;
+                terminalBody.appendChild(line);
+                terminalBody.scrollTop = terminalBody.scrollHeight;
+            }
+            </script>
+        </div>
+        
+        <!-- Right Sidebar -->
+        <div class="right-sidebar" id="right-sidebar">
+            <div class="sidebar-header">
+                <span class="header-title">Code Lounge</span>
+                <div class="header-actions">
+                    <select id="ai-mode-select" class="ai-mode-select" title="AI Mode">
+                        <option value="ai">AI Chat</option>
+                        <option value="chat">Chat Room</option>
+                        <option value="video">Video Conference</option>
+                    </select>
+                    <button class="icon-button" id="expand-right-sidebar" title="Expand Sidebar">
+                        <i class="fas fa-up-right-and-down-left-from-center"></i>
+                    </button>
+                    <button class="icon-button" title="Clear Conversation">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                    <button class="icon-button" id="close-right-sidebar" title="Close Sidebar">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="connected-users-list" id="connected-users-list">
+        <div class="users-list-title">Connected Users</div>
+        <ul class="users-list" id="users-list">
+         
+            <!-- User items will be injected here -->
+        </ul>
+    </div>
+            <div class="chat-container" id="chat-container">
+                <div class="chat-messages" id="chat-messages">
+                    <!-- Messages will be added here -->
+            
+             
+
+                </div>
+                <div>
+                </div>
+                <div class="chat-input-container">
+                    <div class="chat-input-wrapper">
+                        <textarea id="prompt-message-input" class="chat-input" placeholder="Ask AI Assistant or chat with friend..." rows="3"></textarea>
+                        <div class="chat-input-actions">
+                            <button class="input-icon-button" title="Attach File">
+                                <i class="fas fa-paperclip"></i>
+                            </button>
+                            <button id="send-prompt-message" class="input-icon-button send-icon" title="Send Message">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="video-conference-container" id="video-conference-container" style="display:none;">
+    <div class="video-header">Video Conference</div>
+    <div class="video-content">
+        <video id="local-video" autoplay muted playsinline></video>
+        <video id="remote-video" autoplay playsinline></video>
+
+      
+
+    </div>
+    <div class="video-controls">
+        <button id="start-video-btn" class="video-btn"><i class="fa-solid fa-video"></i> Start</button>
+        <button id="stop-video-btn" class="video-btn"><i class="fa-solid fa-phone-slash"></i> Stop</button>
+    </div>
+</div>
+        </div>
+    </div>
+      <!-- <script src="github_firebase_auth.js"></script> -->
+            <script src="main.js"></script>
+    <script>
+    // Sidebar Explorer Toggle
+    const explorerIcon = document.getElementById('explorer-icon');
+    const explorerPanel = document.getElementById('explorer-panel');
+    explorerIcon.addEventListener('click', () => {
+        explorerPanel.style.display = explorerPanel.style.display === 'block' ? 'none' : 'block';
+    });
+    // Show explorer by default
+    explorerPanel.style.display = 'block';
+
+    // Right sidebar close button logic
+const rightSidebar = document.getElementById('right-sidebar');
+const closeSidebarBtn = document.getElementById('close-right-sidebar');
+if (closeSidebarBtn) {
+    closeSidebarBtn.onclick = () => {
+        rightSidebar.style.display = 'none';
+    };
+}
+
+// Open right sidebar logic
+const openSidebarBtn = document.getElementById('ai-sidebar');
+if (openSidebarBtn) {
+    openSidebarBtn.onclick = () => {
+        rightSidebar.style.display = 'flex';
+    };
+}
+
+// Expand right sidebar logic
+const expandSidebarBtn = document.getElementById('expand-right-sidebar');
+if (expandSidebarBtn) {
+    expandSidebarBtn.onclick = () => {
+        const sidebar = document.getElementById('right-sidebar');
+        if (sidebar.classList.contains('expanded')) {
+            sidebar.classList.remove('expanded');
+        } else {
+            sidebar.classList.add('expanded');
+        }
+    };
+}
+
+    </script>
+  
+</body>
+</html>
